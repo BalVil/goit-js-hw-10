@@ -1,9 +1,8 @@
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
 export function fetchCountries(name) {
-  return fetch(
-    `https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,flags,languages`,
-  ).then(response => {
+  const URL = 'https://restcountries.com/v3.1/name/';
+  const options = '?fields=name,capital,population,flags,languages';
+
+  return fetch(`${URL}${name}${options}`).then(response => {
     if (!response.ok) {
       throw new Error(response.status);
     }
