@@ -13,8 +13,8 @@ inputRef.addEventListener('input', debounce(onSearchInput, DEBOUNCE_DELAY));
 function onSearchInput(evt) {
   const searchValue = evt.target.value.trim();
 
-  divItemRef.innerHTML = '';
-  ulListRef.innerHTML = '';
+  cleaInnerEl(ulListRef);
+  cleaInnerEl(divItemRef);
 
   if (searchValue !== '') {
     fetchCountries(searchValue)
@@ -26,21 +26,25 @@ function onSearchInput(evt) {
   }
 }
 
+function cleaInnerEl(ref) {
+  ref.innerHTML = '';
+}
+
 function renderCountries(countries) {
   const countriesNumber = countries.length;
 
   if (countriesNumber === 1) {
-    ulListRef.innerHTML = '';
-    renderCountryInfo(countries);
+    cleaInnerEl(ulListRef);
+    createCountryInfo(countries);
   } else if (countriesNumber > 10) {
     Notify.info('Too many matches found. Please enter a more specific name.');
   } else {
-    divItemRef.innerHTML = '';
-    renderCountriesList(countries);
+    cleaInnerEl(divItemRef);
+    createCountriesList(countries);
   }
 }
 
-function renderCountriesList(countries) {
+function createCountriesList(countries) {
   const markup = countries
     .map(({ name, flags }) => {
       return `<li class="country-list__item">
@@ -58,7 +62,7 @@ function renderCountriesList(countries) {
   ulListRef.innerHTML = markup;
 }
 
-function renderCountryInfo(countries) {
+function createCountryInfo(countries) {
   const markup = countries
     .map(({ name, capital, population, flags, languages }) => {
       return `<div class="country-info__wrap">
